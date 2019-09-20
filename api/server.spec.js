@@ -3,7 +3,7 @@ const request = require('supertest')
 const server = require('./server.js') // Connects the File you are testing
 
 describe('server.js', () => { // Creates an instances of the server to test
-    describe('GET /api/auth', () => { // Sets up the test of the end points
+    describe('GET /', () => { // Sets up the test of the end points
         it('returns 200 OK', () => { // A Test to check the / 200 code response
             return request(server)
                 .get('/')
@@ -28,7 +28,55 @@ describe('server.js', () => { // Creates an instances of the server to test
                     done()
                 })
         })
-
     })
 
+    describe('GET api/auth/', () => {
+        it('returns 404 not found', () => { // A Test to check the / 200 code response
+            return request(server)
+                .get('/api/auth')
+                .then(res => {
+                    expect(res.status).toBe(404) // checks res.status for the 200 code response 
+                })
+        })
+    })
+
+    describe('GET api/jokes/', () => {
+        it('returns 404 not found', () => { // A Test to check the / 200 code response
+            return request(server)
+                .get('/api/auth')
+                .then(res => {
+                    expect(res.status).toBe(404) // checks res.status for the 200 code response 
+                })
+        })
+    })
+
+})
+
+
+describe('auth-router.js', () => {
+    describe('/register', () => {
+        it('should get a body back', () => {
+            return request(server)
+                .post('/api/auth/register')
+                .send({ username: `${Date.now()}`, password: 'password' })
+                .then(res => {
+                    expect(res.status).toBe(201)
+                })
+
+        })
+    })
+})
+
+describe('auth-router.js', () => {
+    describe('/login', () => {
+        it('should get a body back', () => {
+            return request(server)
+                .post('/api/auth/login')
+                .send({ username: 'Timothy', password: 'password' })
+                .then(res => {
+                    expect(res.status).toBe(201)
+                })
+
+        })
+    })
 })

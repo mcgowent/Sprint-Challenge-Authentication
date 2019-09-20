@@ -10,7 +10,7 @@ router.post('/register', (req, res) => {
   const hash = bcrypt.hashSync(user.password, 8);
   user.password = hash;
 
-  Users.add(user).then(saved => { res.status(200).json(saved) }).catch(error => { res.status(500).json(error) })
+  Users.add(user).then(saved => { res.status(201).json(saved) }).catch(error => { res.status(500).json(error) })
 });
 
 router.post('/login', (req, res) => {
@@ -22,7 +22,7 @@ router.post('/login', (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user)
 
-        res.status(200).json({
+        res.status(201).json({
           message: `Welcome ${user.username}!`, token
         })
       } else {
